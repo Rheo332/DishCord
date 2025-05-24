@@ -35,12 +35,14 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user }),
+        body: JSON.stringify(user),
       });
 
       if (res.ok) {
         // TODO: Handle success
         // Store user data in local storage or context
+        const data = await res.json();
+        localStorage.setItem("t", data.token);
         navigate("/");
       } else {
         // TODO: Handle error (show UI message)
@@ -92,7 +94,7 @@ export default function Login() {
           type="text"
           name="username"
           required
-          minlength="4"
+          minLength="4"
           placeholder="Username"
           onChange={handleChange}
         />
@@ -104,7 +106,7 @@ export default function Login() {
           type="password"
           name="password"
           required
-          minlength="8"
+          minLength="8"
           placeholder="Password"
           onChange={handleChange}
         />

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import BottomNav from "./components/BottomNav/BottomNav.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/Login/Login.jsx";
@@ -9,17 +10,39 @@ import Register from "./pages/Register/Register.jsx";
 import "./App.css";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const location = useLocation();
   const hideNav = location.pathname === "/login" || location.pathname === "/register";
-  const signedIn = true; // TODO: replace with actual authentication check
 
-  function checkSignedIn() {
-    if (signedIn) {
-      return <Profile />;
-    } else {
-      return <Navigate to="/login" />;
-    }
-  }
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const token = localStorage.getItem("t");
+      if (token) {
+        try {
+          const res = await fetch("/auth/status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          });
+          if (res.ok) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+        } catch (error) {
+          console.error("Error checking authentication status:", error);
+          setIsAuthenticated(false);
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkAuthStatus();
+  }, []);
 
   return (
     <>
@@ -28,7 +51,18 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
         <Route path="/recipe-browser" element={<RecipeBrowser />} />
-        <Route path="/profile" element={checkSignedIn()} />
+        <Route
+          path="/profile"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : isAuthenticated ? (
+              <Profile />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
 
       {!hideNav && <BottomNav />}
