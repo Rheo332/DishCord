@@ -21,11 +21,28 @@
   text-align: center;
   border-radius: 14px;
   border: 1px solid var(--color-primary);
-  padding: 10px 0;
+  padding: 0.5rem 0.5rem;
   width: 90dvw;
 }
 .search-input:focus {
   outline: 2px solid var(--color-highlight-bright);
+  width: calc(90dvw - 2px);
   border: none;
   margin: 1px;
+}
+
+.recipe-search-button {
+  background-color: transparent;
+  border: none;
+  padding: 0.3rem;
+}
+.recipe-search-button:hover {
+  background-color: var(--color-primary-rgba);
+  border-radius: 50%;
+}
+
+.recipe-search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
