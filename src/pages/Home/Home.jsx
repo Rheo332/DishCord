@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import dishcordLogo from "../../assets/logo.png";
 import { useAuth } from "../../authContext.jsx";
+import ServiceStatus from "../../components/ServiceStatus/ServiceStatus.jsx";
 
 function Home() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function Home() {
       <div className="home-wrapper">
         <img src={dishcordLogo} className="logo" alt="DishCord logo" />
         <h1 className="title">DishCord</h1>
+        <ServiceStatus />
       </div>
     </>
   );
