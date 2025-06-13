@@ -6,7 +6,7 @@ export async function bookmarkRecipe(recipeId) {
     throw new Error("No token found in local storage.");
   }
   try {
-    const res = await fetch(`${API_URL}/bookmarks`, {
+    const res = await fetch(`${API_URL}/recipes/bookmark`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
