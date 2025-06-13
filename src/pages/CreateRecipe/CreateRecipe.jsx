@@ -1,4 +1,4 @@
-import { ArrowUpFromLine, X, Plus, ImageMinus, ImagePlus } from "lucide-react";
+import { ArrowUpFromLine, X, Minus, Plus, ImageMinus, ImagePlus } from "lucide-react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateRecipe.css";
@@ -79,10 +79,15 @@ function CreateRecipe() {
     setPreviews((prev) => [...prev, ...preview]);
   };
 
+  function autoResizeTextarea(e) {
+    e.style.height = "auto";
+    e.style.height = e.scrollHeight + "px";
+  }
+
   return (
     <>
       <div className="create-recipe-wrapper">
-        <h1 className="title">Create A Recipe</h1>
+        <h1 className="title create-top-nav">Create A Recipe</h1>
 
         <div className="create-recipe-body">
           <form className="create-recipe-form">
@@ -100,19 +105,11 @@ function CreateRecipe() {
             <div className="form-group">
               <div className="ingredients-buttons">
                 <label htmlFor="recipe-ingredients">Ingredients</label>
-                <button
-                  className="removeingredient secondary-button"
-                  type="button"
-                  onClick={removeingredient}
-                >
-                  -
+                <button className="add-ingredient" type="button" onClick={addingredient} aria-label="Add ingredient">
+                  <Plus absoluteStrokeWidth={1} size={28} color="var(--color-text)" />
                 </button>
-                <button
-                  className="addingredient secondary-button"
-                  type="button"
-                  onClick={addingredient}
-                >
-                  +
+                <button className="remove-ingredient" type="button" onClick={removeingredient} aria-label="Remove ingredient">
+                  <Minus absoluteStrokeWidth={1} size={28} color="var(--color-text)" />
                 </button>
               </div>
               {ingredients.map((ingredient, index) => (
@@ -150,6 +147,7 @@ function CreateRecipe() {
                 placeholder="Instructions"
                 minLength="1"
                 required
+                onInput={(e) => autoResizeTextarea(e.target)}
               />
             </div>
 
@@ -157,14 +155,14 @@ function CreateRecipe() {
               <div className="recipe-image">
                 <label htmlFor="recipe-image">Images</label>
                 <button
-                  className="recipe-image-upload-button secondary-button"
+                  className="recipe-image-upload-button"
                   type="button"
                   onClick={handleImageButtonClick}
                 >
                   <ImagePlus absoluteStrokeWidth={1} size={28} color="var(--color-text)" />
                 </button>
                 <button
-                  className="recipe-image-upload-button secondary-button"
+                  className="recipe-image-upload-button"
                   type="button"
                   onClick={() => {
                     setImages([]);
