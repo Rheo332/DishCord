@@ -1,13 +1,15 @@
 import { Server, ServerOff } from "lucide-react";
 import { useState, useEffect } from "react";
 import "./ServiceStatus.css";
+import { useError } from "../../contexts/errorContext.jsx";
 import { checkServiceStatus } from "../../services/StatusService";
 
 function ServiceStatus() {
   const [serverStatus, setServerStatus] = useState("Offline");
+  let { setError } = useError();
 
   useEffect(() => {
-    checkServiceStatus(setServerStatus);
+    checkServiceStatus(setServerStatus, setError);
   }, []);
 
   return (

@@ -1,0 +1,25 @@
+.snackbar {
+  position: fixed;
+  left: 0%;
+  bottom: 0%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem;
+  width: calc(100% - 1.5rem);
+  height: auto;
+  border-radius: 16px;
+  border: var(--color-highlight-bright) 2px solid;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  color: var(--color-text);
+  background-color: var(--color-background-secondary);
+}
+.snackbar-action {
+  width: 20%;
+}
+
+.snackbar.open {
+  transform: translateY(calc(-1 * var(--bottomNav-height)));
+}

@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App.jsx";
 import { AuthCheck } from "./contexts/authContext.jsx";
+import { ErrorContextProvider } from "./contexts/errorContext.jsx";
 import { UserDataProvider } from "./contexts/userDataContext.jsx";
 
 registerSW();
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthCheck>
         <UserDataProvider>
-          <App />
+          <ErrorContextProvider>
+            <App />
+          </ErrorContextProvider>
         </UserDataProvider>
       </AuthCheck>
     </BrowserRouter>
