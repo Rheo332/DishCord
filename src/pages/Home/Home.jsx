@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import { useSwipeable } from "react-swipeable";
 import dishcordLogo from "../../assets/logo.png";
 import CreateRecipeButton from "../../components/CreateRecipeButton/CreateRecipeButton.jsx";
 import ServiceStatus from "../../components/ServiceStatus/ServiceStatus.jsx";
@@ -14,6 +15,11 @@ function Home() {
   let showSignInButton = !isAuthenticated;
   let showLogoutButton = isAuthenticated;
   let { setUserData } = useUserData();
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => navigate("/profile"),
+    onSwipedRight: () => navigate("/recipe-browser"),
+  });
 
   function toLogin() {
     navigate("/login");
@@ -40,7 +46,7 @@ function Home() {
   }
 
   return (
-    <>
+    <div {...swipeHandlers}>
       {showSignInButton && (
         <button id="signInButton" className="secondary-button" onClick={toLogin}>
           Sign In
@@ -57,7 +63,7 @@ function Home() {
         <ServiceStatus />
       </div>
       <CreateRecipeButton />
-    </>
+    </div>
   );
 }
 

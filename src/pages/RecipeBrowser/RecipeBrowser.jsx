@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 import RecipeTileList from "../../components/RecipeTileList/RecipeTileList";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { useUserData } from "../../contexts/userDataContext.jsx";
@@ -7,9 +9,14 @@ import { getUserData } from "../../services/UserService.js";
 import "./RecipeBrowser.css";
 
 function RecipeBrowser() {
+  const navigate = useNavigate();
   const [recipes, setRecipes] = useState([]);
   let { userData, setUserData } = useUserData();
   let { isAuthenticated } = useAuth();
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => navigate("/"),
+  });
 
   useEffect(() => {
     getAllRecipes().then((r) => {
@@ -30,7 +37,7 @@ function RecipeBrowser() {
   };
 
   return (
-    <div className="recipe-browser-wrapper">
+    <div className="recipe-browser-wrapper" {...swipeHandlers}>
       <h1 className="title">Recipe Browser</h1>
       <form role="search" className="recipe-search-form">
         <input
